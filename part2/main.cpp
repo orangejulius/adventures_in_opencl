@@ -26,7 +26,7 @@
 //Our OpenCL Particle Systemclass
 #include "cll.h"
 
-#define NUM_PARTICLES 20000
+#define NUM_PARTICLES 600000
 CL* example;
 
 //GL related variables
@@ -82,8 +82,9 @@ int main(int argc, char** argv)
     {
         //distribute the particles in a random circle around z axis
         float rad = rand_float(.2, .5);
+	float radz = rand_float(.01, .05);
         float x = rad*sin(2*3.14 * i/num);
-        float z = 0.0f;// -.1 + .2f * i/num;
+        float z = radz;// -.1 + .2f * i/num;
         float y = rad*cos(2*3.14 * i/num);
         pos[i] = Vec4(x, y, z, 1.0f);
         
@@ -96,7 +97,10 @@ int main(int argc, char** argv)
         vel[i] = Vec4(0.0, 0.0, 3.0f, life_r);
 
         //just make them red and full alpha
-        color[i] = Vec4(1.0f, 0.0f,0.0f, 1.0f);
+	float red = i % 3 == 0 ? 1.0 : 0.0;
+	float green = i % 3 == 1 ? 1.0 : 0.0;
+	float blue = i % 3 == 2 ? 1.0 : 0.0;
+        color[i] = Vec4(red, green, blue, 0.5f);
     }
 
     //our load data function sends our initial values to the GPU
@@ -123,7 +127,7 @@ void appRender()
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_POINT_SMOOTH);
-    glPointSize(5.);
+    glPointSize(2.);
     
     //printf("color buffer\n");
     glBindBuffer(GL_ARRAY_BUFFER, example->c_vbo);

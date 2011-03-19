@@ -34,6 +34,7 @@ ELSE (WIN32)
     message("lib path: $ENV{LD_LIBRARY_PATH}")
     #FIND_LIBRARY(OPENCL_LIBRARIES OpenCL $ENV{LD_LIBRARY_PATH})
     FIND_LIBRARY(OPENCL_LIBRARIES OpenCL ENV LD_LIBRARY_PATH)
+    SET(OPENCL_LIBRARIES /opt/ati-stream-sdk/lib/x86_64/libOpenCL.so)
     message("==============")
     message("opencl_libraries: ${OPENCL_LIBRARIES}")
 
